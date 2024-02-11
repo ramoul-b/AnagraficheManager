@@ -1,0 +1,508 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Anagrafiche",
+        "description": "API pour la gestion des anagrafiches",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/anagrafiche": {
+            "get": {
+                "tags": [
+                    "Anagrafiche"
+                ],
+                "summary": "List anagrafiche",
+                "operationId": "e03f24fa3e92c6b485a7473d12c95bfa",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list with anagrafiche"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Anagrafiche"
+                ],
+                "summary": "Create a new anagrafica",
+                "operationId": "storeAnagrafica",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "partita_iva",
+                                    "codice_fiscale",
+                                    "tipo_id",
+                                    "unique_code"
+                                ],
+                                "properties": {
+                                    "partita_iva": {
+                                        "type": "string",
+                                        "example": "01234567890"
+                                    },
+                                    "codice_fiscale": {
+                                        "type": "string",
+                                        "example": "RSSMRA85M01H501Z"
+                                    },
+                                    "tipo_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "unique_code": {
+                                        "type": "string",
+                                        "example": "UNIQCODE123456"
+                                    },
+                                    "attributes": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "attribute_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "value": {
+                                                    "type": "string",
+                                                    "example": "Attribute Value"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "items": {
+                                                    "properties": {
+                                                        "partita_iva": {
+                                                            "type": "string",
+                                                            "example": "01234567890"
+                                                        },
+                                                        "codice_fiscale": {
+                                                            "type": "string",
+                                                            "example": "RSSMRA85M01H501Z"
+                                                        },
+                                                        "unique_code": {
+                                                            "type": "string",
+                                                            "example": "UNIQCODE123456"
+                                                        },
+                                                        "tipo_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "attributes": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "attribute_id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "value": {
+                                                                        "type": "string",
+                                                                        "example": "Attribute Value"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Validation errors"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "partita_iva": "La partita IVA non è valida."
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/anagrafiche/{id}": {
+            "get": {
+                "tags": [
+                    "Anagrafiche"
+                ],
+                "summary": "Get an anagrafica by ID",
+                "operationId": "getAnagraficaById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the anagrafica",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "items": {
+                                                    "properties": {
+                                                        "partita_iva": {
+                                                            "type": "string",
+                                                            "example": "12345678901"
+                                                        },
+                                                        "codice_fiscale": {
+                                                            "type": "string",
+                                                            "example": "CODFSC12A34B567C"
+                                                        },
+                                                        "unique_code": {
+                                                            "type": "string",
+                                                            "example": "UNQCOD123456"
+                                                        },
+                                                        "tipo_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "pagination": {
+                                                    "type": "object",
+                                                    "example": null
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Anagrafica not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Anagrafica not found"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "errorDetail": {
+                                                    "type": "string",
+                                                    "example": "No anagrafica found with the specified ID"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Anagrafiche"
+                ],
+                "summary": "Update an existing anagrafica",
+                "operationId": "updateAnagrafica",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the anagrafica to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "partita_iva": {
+                                        "type": "string",
+                                        "example": "01234567890"
+                                    },
+                                    "codice_fiscale": {
+                                        "type": "string",
+                                        "example": "RSSMRA85M01H501Z"
+                                    },
+                                    "unique_code": {
+                                        "type": "string",
+                                        "example": "UNIQCODE123456"
+                                    },
+                                    "tipo_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "attributes": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "New Attribute Name"
+                                                },
+                                                "value": {
+                                                    "type": "string",
+                                                    "example": "New Attribute Value"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "items": {
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Validation errors"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Anagrafica not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Anagrafica not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Internal server error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Anagrafiche"
+                ],
+                "summary": "Delete an anagrafica",
+                "description": "Soft deletes an anagrafica by setting the deleted_at timestamp.",
+                "operationId": "deleteAnagrafica",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the anagrafica to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Anagrafica deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Anagrafica deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Anagrafica not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Anagrafica not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

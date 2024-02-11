@@ -1,0 +1,63 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: anagrafichemanager_app
+    container_name: anagrafichemanager_app
+    ports:
+      - "8000:80"
+    environment:
+      APP_NAME: AnagraficheManager
+      APP_ENV: local
+      APP_KEY: base64:Fq+mcYNjWPzKxxPFLVEGWyR6UrTE8y6L//vx/PzdVX0=
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8000
+      LOG_CHANNEL: stack
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: GestioneAnagrafiche
+      DB_USERNAME: gestioneUser
+      DB_PASSWORD: UnaPassw0rdForte!
+    depends_on:
+      - db
+    volumes:
+      - .:/var/www/html
+      - ./public:/var/www/html/public
+    networks:
+      - anagrafichemanager_network
+
+  db:
+    image: mysql:5.7
+    container_name: anagrafichemanager_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: GestioneAnagrafiche
+      MYSQL_ROOT_PASSWORD: UnaPassw0rdForte!
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - anagrafichemanager_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: anagrafichemanager_phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: UnaPassw0rdForte!
+    depends_on:
+      - db
+    networks:
+      - anagrafichemanager_network
+
+networks:
+  anagrafichemanager_network:
+    driver: bridge
+
+volumes:
+  dbdata:
