@@ -248,10 +248,10 @@ public function store(Request $request)
 
     // Ajout de règles conditionnelles pour partita_iva et codice_fiscale
     if ($tipo && $tipo->has_partita_iva) {
-        $validationRules['partita_iva'] = $tipo->required_partita_iva ? 'required|string|max:11' : 'nullable|string|max:11';
+        $validationRules['partita_iva'] = $tipo->required_partita_iva ? ['required', 'string', 'max:11', new PartitaIvaRule()] : 'nullable|string|max:11';
     }
     if ($tipo && $tipo->has_codice_fiscale) {
-        $validationRules['codice_fiscale'] = $tipo->required_codice_fiscale ? 'required|string|max:16' : 'nullable|string|max:16';
+        $validationRules['codice_fiscale'] = $tipo->required_codice_fiscale ? ['required', 'string', 'max:16', new CodiceFiscaleRule()] : 'nullable|string|max:16';
     }
 
     $validator = Validator::make($request->all(), $validationRules);
@@ -375,21 +375,26 @@ public function store(Request $request)
  public function update(Request $request, $id)
  {
      $anagrafica = Anagrafiche::find($id);
- 
+     $tipo = DB::table('tipi')->find($request->tipo_id);
+
      if (!$anagrafica) {
          return response()->json(['success' => false, 'error' => "Anagrafica not found"], 404);
      }
  
      $validationRules = [
-         'partita_iva' => ['sometimes', 'required', 'string', 'max:11'],
-         'codice_fiscale' => ['sometimes', 'required', 'string', 'max:16'],
          'unique_code' => 'sometimes|required|string|max:255',
          'tipo_id' => 'sometimes|required|integer|exists:tipi,id',
          'attributes' => 'sometimes|array',
          'attributes.*.attribute_id' => 'required|integer|exists:attributes,id',
          'attributes.*.value' => 'required|string',
      ];
- 
+
+     if ($tipo && $tipo->has_partita_iva) {
+        $validationRules['partita_iva'] = $tipo->required_partita_iva ? ['sometimes', 'required', 'string', 'max:11', new PartitaIvaRule()] : ['sometimes', 'nullable', 'string', 'max:11'];
+    }
+    if ($tipo && $tipo->has_codice_fiscale) {
+        $validationRules['codice_fiscale'] = $tipo->required_codice_fiscale ? ['sometimes', 'required', 'string', 'max:16', new CodiceFiscaleRule()] : ['sometimes', 'nullable', 'string', 'max:16'];
+    }
      $validator = Validator::make($request->all(), $validationRules);
  
      if ($validator->fails()) {
