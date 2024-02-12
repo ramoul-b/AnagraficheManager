@@ -235,7 +235,7 @@ public function store(Request $request)
 {
     Log::info('Store method called', ['request' => $request->all()]);
     // Récupérer les informations du tipo sélectionné
-     $tipo = DB::table('Tipi')->find($request->tipo_id);
+     $tipo = DB::table('tipi')->find($request->tipo_id);
 
     // Validation initiale
     $validationRules = [
