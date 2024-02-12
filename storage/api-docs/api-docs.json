@@ -334,13 +334,13 @@
                                         "type": "array",
                                         "items": {
                                             "properties": {
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "New Attribute Name"
+                                                "attribute_id": {
+                                                    "type": "integer",
+                                                    "example": 1
                                                 },
                                                 "value": {
                                                     "type": "string",
-                                                    "example": "New Attribute Value"
+                                                    "example": "Attribute Value"
                                                 }
                                             },
                                             "type": "object"

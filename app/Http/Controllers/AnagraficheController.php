@@ -148,7 +148,7 @@ public function show($id)
         'success' => true,
         'data' => [
             'items' => $anagrafica,
-            'pagination' => null, // La pagination n'est pas nécessaire pour une requête unique
+            'pagination' => null, 
         ],
     ], 200);
 }
@@ -322,8 +322,8 @@ public function store(Request $request)
  *                 type="array",
  *                 @OA\Items(
  *                     type="object",
- *                     @OA\Property(property="name", type="string", example="New Attribute Name"),
- *                     @OA\Property(property="value", type="string", example="New Attribute Value")
+ *                     @OA\Property(property="attribute_id", type="integer", example=1),
+ *                     @OA\Property(property="value", type="string", example="Attribute Value")
  *                 )
  *             )
  *         )
